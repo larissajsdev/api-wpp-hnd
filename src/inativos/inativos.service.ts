@@ -9,7 +9,11 @@ import { timer } from 'src/utils/timer.utils';
 
 @Injectable()
 export class InativosService {
-  async upload(file: Express.Multer.File) {
+  async upload(
+    file: Express.Multer.File,
+    message: string,
+    messageIntervalSeconds: string,
+  ) {
     const firstSheet = await convertExcelToJSON(file);
 
     const inativos = firstSheet.map((row: Inativo) => {
@@ -19,8 +23,8 @@ export class InativosService {
     });
 
     for (const inativo of inativos) {
-      await timer(5);
-      await sendTextMessage(inativo.Celular, 'Olá');
+      await timer(Number(messageIntervalSeconds));
+      await sendTextMessage(inativo.Celular, message);
     }
 
     return inativos;
