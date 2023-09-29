@@ -8,6 +8,7 @@ import {
   Delete,
   UploadedFile,
   UseInterceptors,
+  Body,
 } from '@nestjs/common';
 import { InativosService } from './inativos.service';
 // import { CreateInativoDto } from './dto/create-inativo.dto';
@@ -30,8 +31,16 @@ export class InativosController {
       }),
     }),
   )
-  async uploadFile(@UploadedFile() file: Express.Multer.File) {
-    return await this.inativosService.upload(file);
+  async uploadFile(
+    @UploadedFile() file: Express.Multer.File,
+    @Body('message') message: string,
+    @Body('message_interval_seconds') messageIntervalSeconds: string,
+  ) {
+    return await this.inativosService.upload(
+      file,
+      message,
+      messageIntervalSeconds,
+    );
   }
 
   // @Post()
