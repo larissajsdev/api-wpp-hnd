@@ -10,7 +10,7 @@ export async function sendTextMessage(phone: string, text: string) {
       linkPreview: false,
     },
     textMessage: {
-      text,
+      text: text.replace(/\\n/g, '\n'),
     },
   };
 
@@ -20,6 +20,7 @@ export async function sendTextMessage(phone: string, text: string) {
       payload,
     );
   } catch (error) {
+    console.log(error);
     throw new Error(error);
   }
 }
